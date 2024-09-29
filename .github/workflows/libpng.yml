@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: libpng
-          repository: winlibs/libpng
+          repository: Enlightment101/libpng
           ref: ${{github.event.inputs.version}}
       - name: Patch vcxproj
         run: winlib-builder/patchrtl.cmd
