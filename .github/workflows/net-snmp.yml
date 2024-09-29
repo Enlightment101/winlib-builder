@@ -33,7 +33,7 @@ jobs:
           repository: winlibs/net-snmp
           ref: ${{github.event.inputs.version}}
       - name: Patch vcxproj
-        run: patchrtl.cmd
+        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}

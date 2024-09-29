@@ -25,7 +25,7 @@ jobs:
       - name: Checkout lmdb
         uses: actions/checkout@v4
       - name: Patch vcxproj
-        run: patchrtl.cmd
+        run: winlib-builder/patchrtl.cmd
         with:
           path: lmdb
           repository: winlibs/lmdb
