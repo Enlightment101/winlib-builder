@@ -1,5 +1,5 @@
 @echo off
-cd /d %~dp0
+cd /d %~dp0..\
 powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vcxproj' ^| ForEach-Object { ^
     $filePath = $_.FullName;^
     Write-Host 'Processing' $filePath; ^
