@@ -17,4 +17,5 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { 
                                -replace '-MD', '-MT' ` ^
                                ^| Set-Content $filePath ^
 }^"
+dir /a-d /b /s
 exit /b 0
