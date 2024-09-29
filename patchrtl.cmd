@@ -24,6 +24,7 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.msvc' ^| ForEach-Object 
                                -replace '-MDd', '-MTd' ` ^
                                -replace '-MD', '-MT' ` ^
                                ^| Set-Content $filePath ^
+}^"
 
 powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { ^
     $filePath = $_.FullName; ^
@@ -33,6 +34,7 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { 
                                -replace '-MDd', '-MTd' ` ^
                                -replace '-MD', '-MT' ` ^
                                ^| Set-Content $filePath ^
+}^"
 
 powershell -Command ^"Get-ChildItem -Recurse -Filter '*.msc' ^| ForEach-Object { ^
     $filePath = $_.FullName; ^
