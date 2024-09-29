@@ -32,8 +32,6 @@ jobs:
           path: libpng
           repository: Enlightment101/libpng
           ref: ${{github.event.inputs.version}}
-      - name: Patch vcxproj
-        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
@@ -41,6 +39,8 @@ jobs:
         uses: microsoft/setup-msbuild@v2
       - name: Fetch zlib
         run: cd libpng\projects\vstudio${{steps.virtuals.outputs.vsyear}} && curl -Lo zlib131.zip https://zlib.net/zlib131.zip && 7z x zlib131.zip
+      - name: Patch vcxproj
+        run: winlib-builder/patchrtl.cmd
       - name: Build dynamic libpng
         run: cd libpng\projects\vstudio${{steps.virtuals.outputs.vsyear}} && msbuild vstudio.sln /t:libpng /p:Configuration=Release /p:Platform=${{steps.virtuals.outputs.msarch}} /p:PlatformToolset=${{steps.virtuals.outputs.msts}} /p:WindowsTargetPlatformVersion=${{steps.virtuals.outputs.winsdk}}
       - name: Build static libpng
