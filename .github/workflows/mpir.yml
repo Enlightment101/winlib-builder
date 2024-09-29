@@ -24,6 +24,8 @@ jobs:
           path: winlib-builder
       - name: Checkout mpir
         uses: actions/checkout@v4
+      - name: Patch vcxproj
+        run: patchrtl.cmd
         with:
           path: mpir
           repository: winlibs/mpir

@@ -27,6 +27,8 @@ jobs:
           ref: main
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v2
+      - name: Patch vcxproj
+        run: patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
