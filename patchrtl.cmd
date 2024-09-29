@@ -7,7 +7,15 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vcxproj' ^| ForEach-Obje
                                -replace 'MultiThreadedDLL', 'MultiThreaded' ` ^
                                ^| Set-Content $filePath ^
 }^"
- 
+
+powershell -Command ^"Get-ChildItem -Recurse -Filter '*.props' ^| ForEach-Object { ^
+    $filePath = $_.FullName;^
+    Write-Host 'Processing' $filePath; ^
+    (Get-Content $filePath) -replace 'MultiThreadedDebugDLL', 'MultiThreadedDebug' ` ^
+                               -replace 'MultiThreadedDLL', 'MultiThreaded' ` ^
+                               ^| Set-Content $filePath ^
+}^"
+
 powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { ^
     $filePath = $_.FullName; ^
     Write-Host 'Processing' $filePath; ^
