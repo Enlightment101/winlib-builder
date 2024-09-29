@@ -31,8 +31,6 @@ jobs:
           path: libavif
           repository: winlibs/libavif
           ref: ${{github.event.inputs.version}}
-      - name: Patch vcxproj
-        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
@@ -46,6 +44,8 @@ jobs:
       - name: Configure aom for x86
         if: matrix.arch == 'x86'
         run: cd libavif\ext\aom && md build.libavif && cd build.libavif && cmake -G "Visual Studio 16 2019" -A ${{steps.virtuals.outputs.msarch}} -DENABLE_DOCS=0 -DENABLE_EXAMPLES=0 -DENABLE_TESTDATA=0 -DENABLE_TESTS=0 -DENABLE_TOOLS=0 -DENABLE_NASM=1 -DENABLE_SSE2=0 -DENABLE_SSE3=0 -DENABLE_SSSE3=0 -DENABLE_SSE4_1=0 -DENABLE_SSE4_2=0 -DENABLE_AVX=0 -DENABLE_AVX2=0 ..
+      - name: Patch vcxproj
+        run: winlib-builder/patchrtl.cmd
       - name: Build aom
         run: cd libavif\ext\aom\build.libavif && cmake --build . --config Release
       - name: Install aom
