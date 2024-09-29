@@ -56,6 +56,8 @@ jobs:
           xcopy .\aom_a.lib ..\..\..\..\install\lib\
       - name: Configure libavif
         run: cd libavif && cmake -G "Visual Studio 16 2019" -A ${{steps.virtuals.outputs.msarch}} -T ${{steps.virtuals.outputs.msts}} -DAVIF_CODEC_AOM=1 -DAVIF_LOCAL_AOM=1 -DAVIF_ENABLE_WERROR=0 -DBUILD_SHARED_LIBS=0 .
+      - name: Patch vcxproj
+        run: winlib-builder/patchrtl.cmd
       - name: Build libavif
         run: cd libavif && cmake --build . --config RelWithDebInfo
       - name: Install libavif
