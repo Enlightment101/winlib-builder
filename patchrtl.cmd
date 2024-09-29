@@ -16,7 +16,25 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.props' ^| ForEach-Object
                                ^| Set-Content $filePath ^
 }^"
 
+powershell -Command ^"Get-ChildItem -Recurse -Filter '*.msvc' ^| ForEach-Object { ^
+    $filePath = $_.FullName; ^
+    Write-Host 'Processing' $filePath; ^
+    (Get-Content $filePath) -replace '/MDd', '/MTd' ` ^
+                               -replace '/MD', '/MT' ` ^
+                               -replace '-MDd', '-MTd' ` ^
+                               -replace '-MD', '-MT' ` ^
+                               ^| Set-Content $filePath ^
+
 powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { ^
+    $filePath = $_.FullName; ^
+    Write-Host 'Processing' $filePath; ^
+    (Get-Content $filePath) -replace '/MDd', '/MTd' ` ^
+                               -replace '/MD', '/MT' ` ^
+                               -replace '-MDd', '-MTd' ` ^
+                               -replace '-MD', '-MT' ` ^
+                               ^| Set-Content $filePath ^
+
+powershell -Command ^"Get-ChildItem -Recurse -Filter '*.msc' ^| ForEach-Object { ^
     $filePath = $_.FullName; ^
     Write-Host 'Processing' $filePath; ^
     (Get-Content $filePath) -replace '/MDd', '/MTd' ` ^
