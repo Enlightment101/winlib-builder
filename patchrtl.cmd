@@ -8,7 +8,7 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vcxproj' ^| ForEach-Obje
                                ^| Set-Content $filePath ^
 }^"
  
-powershell -Command ^"Get-C hildItem -Recurse -Filter '*.vc' ^| ForEach-Object { ^
+powershell -Command ^"Get-ChildItem -Recurse -Filter '*.vc' ^| ForEach-Object { ^
     $filePath = $_.FullName; ^
     Write-Host 'Processing' $filePath; ^
     (Get-Content $filePath) -replace '/MDd', '/MTd' ` ^
