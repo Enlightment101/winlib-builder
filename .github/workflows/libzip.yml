@@ -32,8 +32,6 @@ jobs:
           path: libzip
           repository: winlibs/libzip
           ref: ${{github.event.inputs.version}}
-      - name: Patch vcxproj
-        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
@@ -45,6 +43,8 @@ jobs:
       - name: Configure libzip for PHP >= 8.0
         if: github.event.inputs.php >= 8.0
         run: cd libzip && md build && cd build && cmake -G "Visual Studio 16 2019" -A ${{steps.virtuals.outputs.msarch}} -T ${{steps.virtuals.outputs.msts}} -DZLIB_INCLUDE_DIR:PATH=${{github.workspace}}\deps\include -DZLIB_LIBRARY:PATH=${{github.workspace}}\deps\lib\zlib_a.lib -DBZIP2_INCLUDE_DIR:PATH=${{github.workspace}}\deps\include -DBZIP2_LIBRARIES:PATH=${{github.workspace}}\deps\lib\libbz2_a.lib -DLIBLZMA_INCLUDE_DIR:PATH=${{github.workspace}}\deps\include -DLIBLZMA_LIBRARY:PATH=${{github.workspace}}\deps\lib\liblzma_a.lib -DBUILD_TOOLS=OFF -DBUILD_REGRESS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOC=OFF ..
+      - name: Patch vcxproj
+        run: winlib-builder/patchrtl.cmd
       - name: Build libzip
         run: cd libzip\build && cmake --build . --config RelWithDebInfo
       - name: Install libzip
