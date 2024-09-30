@@ -45,5 +45,15 @@ powershell -Command ^"Get-ChildItem -Recurse -Filter '*.msc' ^| ForEach-Object {
                                -replace '-MD', '-MT' ` ^
                                ^| Set-Content $filePath ^
 }^"
+
+powershell -Command ^"Get-ChildItem -Recurse -Filter '*makefile' ^| ForEach-Object { ^
+    $filePath = $_.FullName; ^
+    Write-Host 'Processing' $filePath; ^
+    (Get-Content $filePath) -replace '/MDd', '/MTd' ` ^
+                               -replace '/MD', '/MT' ` ^
+                               -replace '-MDd', '-MTd' ` ^
+                               -replace '-MD', '-MT' ` ^
+                               ^| Set-Content $filePath ^
+}^"
 dir /a-d /b /s
 exit /b 0
