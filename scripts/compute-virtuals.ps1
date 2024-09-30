@@ -66,6 +66,8 @@ if (-not $winsdk) {
 $msarchs = @{
     "x64" = "x64"
     "x86" = "Win32"
+    "arm" = "ARM"
+    "arm64" = "ARM64"
 }
 $msarch = $msarchs.$arch
 if (-not $msarch) {
