@@ -19,7 +19,7 @@ jobs:
   build:
     strategy:
       matrix:
-          arch: [x64, x86]
+          arch: [x64, x86, arm, arm64]
     runs-on: windows-2019
     steps:
       - name: Checkout winlib-builder
@@ -32,8 +32,6 @@ jobs:
           path: openssl
           repository: winlibs/openssl
           ref: ${{github.event.inputs.version}}
-      - name: Patch vcxproj
-        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
@@ -46,10 +44,16 @@ jobs:
         uses: ilammy/setup-nasm@v1
       - name: Configure openssl for x64
         if: ${{matrix.arch == 'x64'}}
-        run: cd openssl && perl Configure VC-WIN64A --prefix=C:\usr\local\ssl --openssldir="C:/Program Files/Common Files/SSL" no-dynamic-engine
+        run: cd openssl && perl Configure VC-WIN64A --prefix=C:\usr\local\ssl --openssldir="C:/Program Files/Common Files/SSL" no-dynamic-engine no-shared
       - name: Configure openssl for x86
         if: ${{matrix.arch == 'x86'}}
-        run: cd openssl && perl Configure VC-WIN32 --prefix=C:\usr\local\ssl --openssldir="C:/Program Files (x86)/Common Files/SSL" no-dynamic-engine
+        run: cd openssl && perl Configure VC-WIN32 --prefix=C:\usr\local\ssl --openssldir="C:/Program Files (x86)/Common Files/SSL" no-dynamic-engine no-shared
+      - name: Configure openssl for arm64
+        if: ${{matrix.arch == 'arm64'}}
+        run: cd openssl && perl Configure VC-WIN64-ARM --prefix=C:\usr\local\ssl --openssldir="C:/Program Files/Common Files/SSL" no-dynamic-engine no-shared
+      - name: Configure openssl for arm
+        if: ${{matrix.arch == 'arm'}}
+        run: cd openssl && perl Configure VC-WIN32-ARM --prefix=C:\usr\local\ssl --openssldir="C:/Program Files (x86)/Common Files/SSL" no-dynamic-engine no-shared
       - name: Build openssl
         run: cd openssl && nmake
       - name: Test openssl
