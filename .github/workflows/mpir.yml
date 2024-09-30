@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-          arch: [x64, x86]
+          arch: [x64, x86, arm, arm64]
     runs-on: windows-2019
     steps:
       - name: Checkout winlib-builder
@@ -28,7 +28,7 @@ jobs:
         run: winlib-builder/patchrtl.cmd
         with:
           path: mpir
-          repository: winlibs/mpir
+          repository: Enlightenment101/mpir
           ref: ${{github.event.inputs.version}}
       - name: Compute virtual inputs
         id: virtuals
