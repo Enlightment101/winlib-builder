@@ -22,14 +22,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: winlib-builder
-      - name: Patch vcxproj
-        run: winlib-builder/patchrtl.cmd
       - name: Checkout mpir
         uses: actions/checkout@v4
         with:
           path: mpir
-          repository: Enlightenment101/mpir
+          repository: Enlightment101/mpir
           ref: ${{github.event.inputs.version}}
+      - name: Patch vcxproj
+        run: winlib-builder/patchrtl.cmd
       - name: Compute virtual inputs
         id: virtuals
         run: powershell winlib-builder/scripts/compute-virtuals -version ${{github.event.inputs.php}} -arch ${{matrix.arch}}
